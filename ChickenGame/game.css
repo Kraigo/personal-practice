@@ -1,0 +1,120 @@
+body {
+	font-family: 'PT Sans Narrow', sans-serif;
+}
+.layout {
+	width: 880px;
+	margin: 0 auto;
+}
+
+
+.total {
+	font-size: 3em;
+	margin: 0;
+	text-align: center;
+}
+.total-sec {
+	text-align: center;
+	margin: 0;
+	font-style: italic;
+}
+.clicker-container {
+	text-align: center;
+	margin: 20px 0;
+}
+
+.clicker {
+	width: 120px;
+	height: 138px;
+	padding: 10px;
+	background-image: url(images/chicken.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: 0;
+	outline: 0;
+
+	-webkit-transition: all 0.1s ease;
+	-moz-transition: all 0.1s ease;
+	transition: all 0.1s ease;
+}
+.clicker:active {
+	-webkit-transform: scale(0.95);
+	-moz-transform: scale(0.95);
+	transform: scale(0.95);
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+
+
+.factory {
+	color: #000;
+	border: 1px solid #C8C2AA;
+	background-color: #E4DFCB;
+	padding: 5px;
+	width: 23%;
+	margin: 1%;
+	border-radius: 5px;
+	box-shadow: 0 3px #B0A98D,
+				inset 0 2px #F5F2E4,
+				inset -1px 0 #F5F2E4,
+				inset 1px 0 #F5F2E4;
+	text-align: center;
+	float: left;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.factory:hover {background-color: #EFE7C6; cursor: pointer;}
+.factory:active {
+	-webkit-transform: translate(0, 2px);
+	-moz-transform: translate(0, 2px);
+	transform: translate(0, 2px);
+	box-shadow: 0 1px #B0A98D,
+				inset 0 2px #F5F2E4,
+				inset -1px 0 #F5F2E4,
+				inset 1px 0 #F5F2E4;
+}
+
+.factory.deactive {
+	color: #ABABAB;
+	border: 1px solid #DFDFDF;
+	background-color: #E0E0E0;
+	box-shadow: 0 3px #C7C7C7,
+				inset 0 2px #EFEFEF,
+				inset -1px 0 #EFEFEF,
+				inset 1px 0 #EFEFEF;
+}
+.factory.deactive:hover {background-color: #DAD9D9;	}
+.factory.deactive:active {
+	-webkit-transform: translate(0, 2px);
+	-moz-transform: translate(0, 2px);
+	transform: translate(0, 2px);
+	box-shadow: 0 1px #C7C7C7,
+				inset 0 2px #EFEFEF,
+				inset -1px 0 #EFEFEF,
+				inset 1px 0 #EFEFEF;
+}
+.factory.deactive .factory-title { border-bottom-color: #D0D0D0;}
+
+
+.factory-title {
+	margin: 0;
+	padding-bottom: 5px;
+	font-size: 1.3em;
+	border-bottom: 1px solid #DFD6B2;
+}
+.factory-money {
+	margin: 0;
+	font-size: 2em;
+}
+.factory-money:before {content: '+';}
+.factory-money:after {content: ' кур/сек';}
+.factory-money.money-click:after {content: ' кур/клик';}
+.factory-cost {
+	margin: 5px;
+	font-size: 0.9em;	
+}
+.factory-cost:before {content: 'Улучшить: ';}

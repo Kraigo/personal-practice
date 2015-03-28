@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="game.css">
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div class="layout">
+
+		<p class="total"> Всего: <span id="moneyVal">0</span> курочек.</p>
+		<p class="total-sec"> Прибыль: <span id="profitVal">0</span> курочек в секунду.</p>
+		<div class="clicker-container">
+			<button id="clicker" class="clicker" onClick="chicken.click();"></button>
+		</div>
+		
+
+		<div id="factoriesContainer"></div>
+	</div>
+
+	<div class="console" style="position: absolute; top: 0; left: 0; padding: 5px;">
+		<p>Interval delay: <span id="dataVal"></span> ms</p>
+	</div>
+
+
+
+<script src="game.js"></script>
+<script>
+	var chicken = new Game();
+</script>
+	
+
+	
+
+</body>
+</html>

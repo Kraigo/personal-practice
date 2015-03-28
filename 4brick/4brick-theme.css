@@ -1,0 +1,39 @@
+/*
+	.box - все контейнеры;
+	.brick1 .box - контейнер определенного размера;
+*/
+body {
+	background-color: #f2f2f2;
+}
+
+.box {
+	min-height: 50px;
+	border: 1px solid #e1e1e1;
+	margin: 10px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	line-height: 50px;
+	text-align: center;
+	font-size: 20px;
+	border-radius: 2px;
+	background-color: #fff;
+}
+.brick1 .box { border-color: #00bff3; }
+.brick2 .box { border-color: #f06eaa; }
+.brick3 .box { border-color: #7cc576; }
+.brick4 .box { border-color: #fbaf5d; }
+
+.brick1:hover, .brick2:hover, .brick3:hover, .brick4:hover {
+	box-shadow: 0px 3px 8px 0px rgba(50, 50, 50, 0.6),
+			inset 0px 3px 8px 0px rgba(255,255,255, 0.6);
+	transform: translate(0,-2px);
+}
+
+
+#header, #content, #footer {
+	border: 1px solid #000;
+	margin:25px 0;
+	overflow: auto;
+}
+

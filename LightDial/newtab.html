@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="css/newtab.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script>
+<script type="text/javascript" src="js/action.js"></script>
+<title>Новая вкладка</title>
+</head>
+<body>
+
+<div id="overlay"></div>
+
+<div id="add-field">
+	<h3>Новая закладка</h3>
+	<span><input type="text" id="title"  placeholder="Заголовок"/></span>
+	<span><input type="text" id="link" placeholder="Ссылка"/></span>
+	<span><input type="text" id="image"  placeholder="Изображение"/></span>
+	<span>
+		<select id="images-set">
+			<option value="" disabled selected="selecter">Выбрать изображение</option>
+			<option value="logo/odnoklassniki.png">Одноклассники</option>
+			<option value="logo/sprashivai.png">Спрашивай.ру</option>
+			<option value="logo/vkontakte.png">ВКонтакте</option>
+			<option value="logo/bebo.png">Bebo</option>
+			<option value="logo/behance.png">Behance</option>
+			<option value="logo/blogger.png">Blogger</option>
+			<option value="logo/delicious.png">Delicious</option>
+			<option value="logo/designbump.png">Design Bump</option>
+			<option value="logo/deviantart.png">Deviant Art</option>
+			<option value="logo/digg.png">Digg</option>
+			<option value="logo/drupal.png">Drupal</option>
+			<option value="logo/facebook.png">Facebook</option>
+			<option value="logo/flickr.png">Flickr</option>
+			<option value="logo/formspring.png">Formspring</option>
+			<option value="logo/friendfeed.png">FriendFeed</option>
+			<option value="logo/googleplus.png">Google+</option>
+			<option value="logo/lastfm.png">LastFM</option>
+			<option value="logo/linkedin.png">linkedIn</option>
+			<option value="logo/livejournal.png">LiveJournal</option>
+			<option value="logo/mail.png">Mail.ru</option>
+			<option value="logo/myspace.png">MySpace</option>
+			<option value="logo/picasa.png">Picasa</option>
+			<option value="logo/reddit.png">Reddit</option>
+			<option value="logo/stumbleupon.png">StumbleUpon</option>
+			<option value="logo/technorati.png">Technorati</option>
+			<option value="logo/tumblr.png">Tumblr</option>
+			<option value="logo/twitter.png">Twitter</option>
+			<option value="logo/vimeo.png">Vimeo</option>
+			<option value="logo/yahoo.png">Yahoo</option>
+			<option value="logo/youtube.png">YouTube</option>
+		</select>
+	</span>
+	<span><button id="add">Добавить</button></span>
+</div>
+
+<div id="dials">
+	<!-- dinamic dials -->
+</div>
+
+<div id="menu">
+	<ul>
+		<li id="edit">Редактировать</li>
+		<li id="refresh">Обновить эскиз</li>
+		<li id="remove">Удалить</li>
+	</ul>
+</div>
+
+</body>
+</html>

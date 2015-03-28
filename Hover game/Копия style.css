@@ -1,0 +1,37 @@
+*{margin:0; padding:0;}
+#aa {background:url(dor.jpg) center center no-repeat; display:block;position:absolute;width:50px; height:50px;}
+#ab {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; left:50px;top:0px}
+#ba {background:url(down.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:50px;left:0px}
+#bb {background:url(down.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:50px;left:0px}
+#bb2 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:0px;left:50px}
+#ca {background:url(down.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:50px;left:0px}
+#ac {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:0px;left:50px}
+#ad {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:0px;left:50px}
+#bc {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:0px;left:50px}
+#cb {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:0px;left:50px}
+#cb2 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:0px;left:50px}
+#da {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:0px;left:50px}
+#bc2 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:0px;left:50px}
+#bc3 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:50px; height:50px; top:0px;left:50px}
+#aa:hover #ba {display:block}
+#aa:hover #ab {display:block}
+<!---->
+#ab:hover #ac {display:block}
+#ab:hover {background:url(dor.jpg) center center no-repeat}
+#ab:hover #bb {display:block}
+#ab:hover {background:url(dor.jpg) center center no-repeat}
+<!---->
+#ba:hover #ca {display:block}
+#ba:hover {background:url(dor.jpg) center center no-repeat}
+#ba:hover #bb2 {display:block}
+#ba:hover {background:url(dor.jpg) center center no-repeat}
+<!---->
+#ac:hover #ad {display:block}
+#ac:hover {background:url(dor.jpg) center center no-repeat}
+#ac:hover #bc {display:block}
+#ac:hover {background:url(dor.jpg) center center no-repeat}
+<!---->
+#ca:hover #da {display:block}
+#ca:hover {background:url(dor.jpg) center center no-repeat}
+#ca:hover #cb2 {display:block}
+#ca:hover {background:url(dor.jpg) center center no-repeat}

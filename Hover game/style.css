@@ -1,0 +1,76 @@
+*{margin:0; padding:0;}
+#game {position:absolute;left:10%;top:10%}
+#a1 {background:url(dor.jpg) center center no-repeat; display:block;position:absolute;width:20px; height:20px;}
+#a2 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; left:20px;top:0px}
+#a3 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:0px;left:20px}
+#a4 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:0px;left:20px}
+#a5 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:0px;left:20px}
+#a6 {background:url(down.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:20px;left:0px}
+#a7 {background:url(down.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:20px;left:0px}
+#a8 {background:url(down.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:20px;left:0px}
+#a9 {background:url(down.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:20px;left:0px}
+#a10 {background:url(left.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:0px;right:20px}
+#a11 {background:url(left.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:0px;right:20px}
+#a12 {background:url(left.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:0px;right:20px}
+#a13 {background:url(left.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:0px;right:20px}
+#a14 {background:url(up.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; bottom:20px;right:0px}
+#a15 {background:url(up.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; bottom:20px;right:0px}
+#a16 {background:url(up.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; bottom:20px;right:0px}
+#a17 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; left:20px;top:0px}
+#a18 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; left:20px;top:0px}
+#a19 {background:url(right.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; left:20px;top:0px}
+#a20 {background:url(down.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:20px;left:0px}
+#a21 {background:url(down.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:20px;left:0px}
+#a22 {background:url(left.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:0px;right:20px}
+#a23 {background:url(left.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; top:0px;right:20px}
+#a24 {background:url(up.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; bottom:20px;right:0px}
+#a25 {background:url(pregrada.jpg) center center no-repeat; display:none;position:absolute;width:20px; height:20px; left:20px;top:0px}
+
+#a1:hover #a2 {display:block}
+<!---->
+#a2:hover #a3 {display:block}
+#a2:hover {background:url(dor.jpg) center center no-repeat}
+#a3:hover #a4 {display:block}
+#a3:hover {background:url(dor.jpg) center center no-repeat}
+#a4:hover #a5 {display:block}
+#a4:hover {background:url(dor.jpg) center center no-repeat}
+#a5:hover #a6 {display:block}
+#a5:hover {background:url(dor.jpg) center center no-repeat}
+#a6:hover #a7 {display:block}
+#a6:hover {background:url(dor.jpg) center center no-repeat}
+#a7:hover #a8 {display:block}
+#a7:hover {background:url(dor.jpg) center center no-repeat}
+#a8:hover #a9 {display:block}
+#a8:hover {background:url(dor.jpg) center center no-repeat}
+#a9:hover #a10 {display:block}
+#a9:hover {background:url(dor.jpg) center center no-repeat}
+#a10:hover #a11 {display:block}
+#a10:hover {background:url(dor.jpg) center center no-repeat}
+#a11:hover #a12 {display:block}
+#a11:hover {background:url(dor.jpg) center center no-repeat}
+#a12:hover #a13 {display:block}
+#a12:hover {background:url(dor.jpg) center center no-repeat}
+#a13:hover #a14 {display:block}
+#a13:hover {background:url(dor.jpg) center center no-repeat}
+#a14:hover #a15 {display:block}
+#a14:hover {background:url(dor.jpg) center center no-repeat}
+#a15:hover #a16 {display:block}
+#a15:hover {background:url(dor.jpg) center center no-repeat}
+#a16:hover #a17 {display:block}
+#a16:hover {background:url(dor.jpg) center center no-repeat}
+#a17:hover #a18 {display:block}
+#a17:hover {background:url(dor.jpg) center center no-repeat}
+#a18:hover #a19 {display:block}
+#a18:hover {background:url(dor.jpg) center center no-repeat}
+#a19:hover #a20 {display:block}
+#a19:hover {background:url(dor.jpg) center center no-repeat}
+#a20:hover #a21 {display:block}
+#a20:hover {background:url(dor.jpg) center center no-repeat}
+#a21:hover #a22 {display:block}
+#a21:hover {background:url(dor.jpg) center center no-repeat}
+#a22:hover #a23 {display:block}
+#a22:hover {background:url(dor.jpg) center center no-repeat}
+#a23:hover #a24 {display:block}
+#a23:hover {background:url(dor.jpg) center center no-repeat}
+#a24:hover #a25 {display:block}
+#a24:hover {background:url(dor.jpg) center center no-repeat}

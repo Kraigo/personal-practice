@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Munchkin Treasure Hunter</title>
+	<link rel="stylesheet" href="munch.css">
+	<link href='http://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic,cyrillic-ext' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div class="console">
+		<button onClick="(function(){ console.log( 'Игрок %s Уровень, %s Бонусов', igor.level, munchkin.checkItemsGear(igor) ) })()">Характеристика</button>
+		<br><br>
+		<button onClick="(function(){ console.log( munchkin ) })()">Игра</button>
+		<button onClick="(function(){ console.log( igor ) })()">Игрок</button>
+		<button onClick="(function(){ console.log( igor.hand ) })()">Рука</button>
+		<button onClick="(function(){ console.log( igor.items ) })()">Шмотки</button>
+		<br><br>
+		<button onClick="(function(){ console.log( munchkin.cards ) })()">Колоды</button>
+		<button onClick="(function(){ console.log( munchkin.cards.doors ) })()">Двери</button>
+		<button onClick="(function(){ console.log( munchkin.cards.treasures ) })()">Сокровища</button>
+		<button onClick="(function(){ console.log( munchkin.cards.inGame ) })()">В игре</button>
+		<button onClick="(function(){ console.log( munchkin.cards.doorsFold ) })()">Сброс дверей</button>
+		<button onClick="(function(){ console.log( munchkin.cards.treasuresFold ) })()">Сброс сокровищ</button>
+		<br><br>
+		<button onClick="munchkin.fight(munchkin.player, munchkin.cards.inGame[0]);">Продолжать битву</button>
+		<button onClick="munchkin.run(munchkin.player);">Смываться</button>
+		<button onClick="munchkin.bagStuff(munchkin.player);">Непотребство</button>
+
+	</div>
+
+	<div id="battleboard" class="battleboard">	
+		<div id="control"></div>
+
+	</div>
+
+	<script src="munch.js"></script>
+	<script src="player.js"></script>
+	<script>
+	var igor = new MunchPlayer;
+	igor.name = 'Игорь';
+
+	var munchkin = new Munch();
+	munchkin.log('Манчкин %s спустился в подземелье и уперся в хлипкую дверь. Если немного приложить усилий, она может поддаться.', igor.name);
+	munchkin.giveChoice(igor);
+	</script>
+
+	<script src="cards.js"></script>
+
+	
+</body>
+</html>

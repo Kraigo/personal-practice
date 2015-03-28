@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+<head>
+	<meta charset="UTF-8">
+	<title>Munchkin Treasure Hunter</title>
+	<link href='http://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic,cyrillic-ext' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="munch.css">	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+</head>
+<body ng-controller="MunchCtrl">
+
+	<div class="battleboard">	
+		<div class="header">
+			<p>Имя: {{player.name}}, Уровень: {{player.level}}, Общий уровень: {{checkItemsGear(player) + player.level}}</p>
+			<p>
+			<span class="log-btn" ng-class="{'showed': showLog}">
+				<label>Посмотреть лог <input type="checkbox" ng-model="showLog"> ({{logList.length}})</label>
+			</span>
+			</p>
+		</div>
+		
+
+		<div class="log" ng-show="showLog">
+			<ul>
+				<li ng-repeat="log in logList" ng-bind-html="log">
+					{{log}}
+				</li>
+			</ul>
+		</div>
+
+		<div class="control-container">
+			<div class="card doorback" style="float: left;" ng-click="kickDoor(player)"></div>
+			<ul id="folddoor"></ul>
+
+			<br>
+
+			<div class="card treasureback" style="clear: both; float: left;" ng-click="takeTreasure(player)"></div>
+			<ul id="foldtrasure"></ul>
+		</div>
+
+		<div class="ingame-container">
+			<ul id="ingame">
+				<li class="card magnific {{card.pack}}" ng-repeat="card in cards.inGame">
+					<p class="card-level" ng-show="card.level">Уровень {{card.level}}</p>
+					<p class="card-gear">{{card.gearText}}</p>
+
+					<p class="card-title">{{card.title}}</p>
+					<p class="card-text">{{card.text}}</p>
+
+					<p class="card-image"><img src="" alt=""></p>
+
+					<span class="card-left" ng-show="card.reward>1">{{card.reward}} уровня</span>
+					<span class="card-right" ng-show="card.treasure">{{card.treasure}} сокровища</span>
+					<span class="card-right" ng-show="card.gold">{{card.gold}} голдов</span>
+				</li>
+			</ul>
+		</div>
+
+		<div class="items-container">
+			<ul id="items">
+				<li class="card magnific {{card.pack}}" ng-repeat="card in player.items">
+					<p class="card-level" ng-show="card.level">Уровень {{card.level}}</p>
+					<p class="card-gear">{{card.gearText}}</p>
+
+					<p class="card-title">{{card.title}}</p>
+					<p class="card-text">{{card.text}}</p>
+
+					<p class="card-image"><img src="" alt=""></p>
+
+					<span class="card-left" ng-show="card.reward>1">{{card.reward}} уровня</span>
+					<span class="card-right" ng-show="card.treasure">{{card.treasure}} сокровища</span>
+					<span class="card-right" ng-show="card.gold">{{card.gold}} голдов</span>
+				</li>
+			</ul>
+		</div>
+
+		<div class="hand-container">
+			<ul id="hand">
+				<li class="card magnific {{card.pack}}" ng-repeat="card in player.hand" ng-click='wearItem(player, card)'>
+					<p class="card-level" ng-show="card.level">Уровень {{card.level}}</p>
+					<p class="card-title">{{card.title}}</p>
+
+					<p class="card-gear">{{card.gearText}}</p>
+					<p class="card-text">{{card.text}}</p>
+
+					<p class="card-image"><img src="" alt=""></p>
+
+					<span class="card-left" ng-show="card.reward>1">{{card.reward}} уровня</span>
+					<span class="card-right" ng-show="card.treasure">{{card.treasure}} сокровища</span>
+					<span class="card-right" ng-show="card.gold">{{card.gold}} голдов</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<ul></u>
+
+	<script src="munch.js"></script>
+
+	
+</body>
+</html>

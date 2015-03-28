@@ -1,0 +1,34 @@
+body, html {height: 100%; margin: 0; padding: 0;}
+
+body {font-family: 'PT Serif', serif;}
+
+.console {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	line-height: 0.5;
+}
+.console button {font-size: 0.6em;}
+
+.battleboard {
+	padding-top: 200px;
+	width: 700px;
+	height: 100%;
+	margin: 0 auto;
+	position: relative;
+}
+
+
+
+.button {
+	padding: 0.3em 0.5em;
+	border: 1px solid #DFDFDF;
+	border-radius: 3px;
+	background: #ECECEC;
+}
+.button:hover {
+	cursor: pointer;
+	border-color: #C5C5C5;
+	background: #D8D8D8;
+}

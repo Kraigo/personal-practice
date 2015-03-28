@@ -1,0 +1,230 @@
+body, html {height: 100%; margin: 0; padding: 0;}
+
+body {font-family: 'PT Serif', serif;}
+
+.header p {margin: 0;}
+
+.log {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	line-height: 1.2;
+	width: 600px;
+	font-size: 0.9em;
+	background-color: #DDD;
+	height: 100%;
+	padding: 10px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.log-btn {
+	display: inline-block;
+	border-bottom: 1px dashed grey;
+	color: grey;
+}
+.log-btn.showed {
+	border-bottom-color: #2E39B0;
+	color: #2E39B0;
+}
+.log-btn input {display: none;}
+.log-btn:hover {cursor: pointer;}
+
+.battleboard {
+	height: 100%;
+	position: relative;
+}
+.logboard {
+	position: absolute;
+	right: 10px;
+	top:10px;
+	width: 300px;
+	height: 400px;
+	border-radius: 15px;
+	padding: 5px;
+	border: 1px solid #B58C8C;
+	background-color: #EAEAEA;
+}
+
+
+.hand-container {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 196px;
+	padding: 10px;
+	background: beige;
+	border-top: 1px solid #C3C38D;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.hand-container ul {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	white-space: nowrap;
+}
+.control-container {
+	padding: 100px 30px;
+	width: 40%;
+	float: left;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.ingame-container {
+	padding: 100px 200px;
+	width: 60%;
+	float: left;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.ingame-container ul {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+.items-container {
+	position: absolute;
+	bottom: 196px;
+	left: 0;
+	width: 100%;
+	height: 196px;
+	padding: 10px;
+	background: #DFDFBE;
+	border-top: 1px solid #C3C38D;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.items-container ul {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.card-back {
+	position: absolute;
+	left: 0;
+	top: 100px;
+}
+
+.card p {margin: 0; white-space: pre-wrap;}
+.card {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	margin: 0 2.5px;
+	width: 98px;
+	height: 160px;
+	padding: 4px;
+	border-radius: 15px;
+	border-width: 4px;
+	border-style: solid;
+	border-color: #000;
+	background-color: #fff;
+	list-style: none;
+	font-size: 6px;
+
+	-webkit-transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+	-webkit-transform-origin: 50% 100%;
+	-moz-transform-origin: 50% 100%;
+	transform-origin: 50% 100%;
+}
+.card.doors {
+	border-color: #713223;
+	background-color: #f9c04f;
+	-webkit-transform-origin: 50%;
+	-moz-transform-origin: 50%;
+	transform-origin: 50%;
+}
+.card.treasure {
+	border-color: #942004;
+	background-color: #FAD68D;
+}
+.card.doorback {
+	border-color: #713223;
+	background: url(images/door.png) center center no-repeat;
+	background-size: cover;
+}
+.card.treasureback {
+	border-color: #942004;
+	background: url(images/treasure.png) center center no-repeat;
+	background-size: cover;
+}
+
+.card-level, .card-gear {
+	font-size: 1.3em;
+	text-align: center;
+}
+.card-title {
+	font-size: 1.7em;
+	font-weight: bold;
+	text-align: center;
+}
+.card-text {
+	font-size: 1em;
+	text-indent: 0.5em;
+	text-align: left;
+}
+.card-image {
+	text-align: center;
+}
+.card-image img {
+	max-width: 100%;
+	margin: 10px 0;
+}
+.card-left {
+	font-size: 1em;
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	font-weight: bold;
+}
+.card-right {
+	font-size: 1em;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	font-weight: bold;
+}
+
+.magnific:hover {
+	z-index: 1;
+	-webkit-transform: scale(2);
+	-moz-transform: scale(2);
+	transform: scale(2);
+	margin: 0 30px;
+	box-shadow: 0 0px 10px rgba(0,0,0,0.4);
+}
+/*.card:hover:first-child {
+	-webkit-transform-origin: 20% 100%;
+	-moz-transform-origin: 20% 100%;
+	transform-origin: 20% 100%;
+	margin-right: 60px;
+}
+.card:hover:last-child:not(:first-child) {
+	-webkit-transform-origin: 80% 100%;
+	-moz-transform-origin: 80% 100%;
+	transform-origin: 80% 100%;
+	margin-left: 60px;
+}*/
+
+
+
+
+
+#folddoor {
+	margin: 0;
+	float: left;
+	padding: 0;
+}

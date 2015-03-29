@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+<head>
+	<meta charset="UTF-8">
+	<title>Todo</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+	<script src="todo.js"></script>
+	<style>
+		.done-true {
+			font-weight: normal;
+			text-decoration: line-through;
+			color: grey;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+	<h2>Список дел</h2>
+		<div ng-controller="TodoCtrl">
+			<span>Осталось {{remaining()}} из {{todos.length}}</span>
+			[ <a href="" ng-click="archive()">архив</a> ]
+			<ul class="list-unstyled">
+				<li ng-repeat="todo in todos">
+					<label>
+					<input type="checkbox" ng-model="todo.done">
+					<span class="done-{{todo.done}}">{{todo.text}}</span>
+					</label>
+				</li>
+			</ul>
+
+			<form ng-submit="addTodo()" class="form-inline">
+				<div class="form-group">
+					<div class="input-group">
+						<input type="text" ng-model="todoText" size="30"
+					placeholder="впишите новое дело" class="form-control">
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary">Добавить</button>
+			</form>
+
+
+
+		</div>
+	</div>
+
+	
+</body>
+</html>

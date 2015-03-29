@@ -1,14 +1,35 @@
+html {
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	font-size: 14px;
+}
 body {
 	font-family: 'PT Sans Narrow', sans-serif;
 }
 .layout {
-	width: 880px;
+	max-width: 880px;
 	margin: 0 auto;
+}
+
+.console-data {
+	color: #ccc;
+}
+
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	background-color: #fff;
 }
 
 
 .total {
-	font-size: 3em;
+	font-size: 1.5em;
 	margin: 0;
 	text-align: center;
 }
@@ -19,14 +40,14 @@ body {
 }
 .clicker-container {
 	text-align: center;
-	margin: 20px 0;
+	margin: 55px 0 20px
 }
 
 .clicker {
 	width: 120px;
 	height: 138px;
 	padding: 10px;
-	background-image: url(images/chicken.png);
+	background-image:  url('chicken.png');
 	background-position: center;
 	background-repeat: no-repeat;
 	background-color: transparent;
@@ -45,21 +66,29 @@ body {
 	-moz-box-shadow: none;
 	box-shadow: none;
 }
+.button {
+	-webkit-tap-highlight-color: rgba(0,0,0,0); 
+	-moz-tap-highlight-color: rgba(0,0,0,0); 
+}
 
 
-
+#factoriesContainer:after {
+	content: '';
+	display: table;
+	clear: both;
+}
 .factory {
 	color: #000;
 	border: 1px solid #C8C2AA;
 	background-color: #E4DFCB;
 	padding: 5px;
-	width: 23%;
-	margin: 1%;
+	width: 98%;
+	margin: 10px 1%;
 	border-radius: 5px;
 	box-shadow: 0 3px #B0A98D,
-				inset 0 2px #F5F2E4,
-				inset -1px 0 #F5F2E4,
-				inset 1px 0 #F5F2E4;
+	inset 0 2px #F5F2E4,
+	inset -1px 0 #F5F2E4,
+	inset 1px 0 #F5F2E4;
 	text-align: center;
 	float: left;
 	-webkit-box-sizing: border-box;
@@ -73,9 +102,9 @@ body {
 	-moz-transform: translate(0, 2px);
 	transform: translate(0, 2px);
 	box-shadow: 0 1px #B0A98D,
-				inset 0 2px #F5F2E4,
-				inset -1px 0 #F5F2E4,
-				inset 1px 0 #F5F2E4;
+	inset 0 2px #F5F2E4,
+	inset -1px 0 #F5F2E4,
+	inset 1px 0 #F5F2E4;
 }
 
 .factory.deactive {
@@ -83,9 +112,9 @@ body {
 	border: 1px solid #DFDFDF;
 	background-color: #E0E0E0;
 	box-shadow: 0 3px #C7C7C7,
-				inset 0 2px #EFEFEF,
-				inset -1px 0 #EFEFEF,
-				inset 1px 0 #EFEFEF;
+	inset 0 2px #EFEFEF,
+	inset -1px 0 #EFEFEF,
+	inset 1px 0 #EFEFEF;
 }
 .factory.deactive:hover {background-color: #DAD9D9;	}
 .factory.deactive:active {
@@ -93,9 +122,9 @@ body {
 	-moz-transform: translate(0, 2px);
 	transform: translate(0, 2px);
 	box-shadow: 0 1px #C7C7C7,
-				inset 0 2px #EFEFEF,
-				inset -1px 0 #EFEFEF,
-				inset 1px 0 #EFEFEF;
+	inset 0 2px #EFEFEF,
+	inset -1px 0 #EFEFEF,
+	inset 1px 0 #EFEFEF;
 }
 .factory.deactive .factory-title { border-bottom-color: #D0D0D0;}
 
@@ -103,12 +132,20 @@ body {
 .factory-title {
 	margin: 0;
 	padding-bottom: 5px;
-	font-size: 1.3em;
+	font-size: 1em;
 	border-bottom: 1px solid #DFD6B2;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 .factory-money {
 	margin: 0;
-	font-size: 2em;
+	font-size: 1.2em;
+}
+.factory p {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 .factory-money:before {content: '+';}
 .factory-money:after {content: ' кур/сек';}
@@ -118,3 +155,15 @@ body {
 	font-size: 0.9em;	
 }
 .factory-cost:before {content: 'Улучшить: ';}
+
+@media (min-width: 320px) {
+	.factory { width: 48%}
+}
+@media (min-width: 768px) {
+	.factory { width: 31%;  }
+	.factory-title {font-size: 1.3em}
+	.factory-money {font-size: 2em;}
+	.total {font-size: 3em;}
+	body {font-size: 16px;}
+	.clicker-container {margin-top: 90px;}
+}

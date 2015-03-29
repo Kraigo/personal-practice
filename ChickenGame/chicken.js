@@ -5,8 +5,9 @@ function Game() {
 		time: 1000,
 		money: 0,
 		moneyTarget: document.getElementById('moneyVal'),
-		profitTarget: document.getElementById('profitVal')
-
+		profitTarget: document.getElementById('profitVal'),
+		clickerTarget: document.getElementById('clicker'),
+		win: false
 	}
 	var dataTarget = document.getElementById('dataVal');
 
@@ -20,14 +21,14 @@ function Game() {
 			title: 'Курочка',
 			level: 1,
 			moneyClick: function() {
-				return this.level;
+				return Math.round(game.checkFactories()/100*this.level+this.level); 
 			},
 			cost: function() {
-				return this.level*20;
+				return Math.pow(this.level, 3);
 			}
 		},
 		chicken: {
-			title: 'Несушка',
+			title: 'Курочка-Несушка',
 			level: 0,
 			money: function() {
 				return this.level;
@@ -53,27 +54,27 @@ function Game() {
 				return this.level*50;
 			},
 			cost: function() {
-				return (this.level+1)*2000;
+				return (this.level+1)*3000;
 			}
 		},
 		fabrika: {
 			title: 'Куриная фабрика',
 			level: 0,
 			money: function() {
-				return this.level*15;
+				return this.level*120;
 			},
 			cost: function() {
-				return (this.level+1)*250;
+				return (this.level+1)*7500;
 			}
 		},
 		maginhat: {
 			title: 'Волшебная шляпа',
 			level: 0,
 			money: function() {
-				return this.level*50;
+				return this.level*300;
 			},
 			cost: function() {
-				return (this.level+1)*1000;
+				return (this.level+1)*25000;
 			}
 		}
 	};
@@ -96,6 +97,11 @@ function Game() {
 		param.moneyTarget.innerHTML = param.money;
 
 		for (var f in game.factories) {
+
+		if (game.factories[f].moneyClick) {
+			game.factories[f].moneyClickTarget.innerHTML = game.factories[f].moneyClick();
+		}
+
 			if (param.money >= game.factories[f].cost()) {
 				game.factories[f].target.className = 'factory';
 			} else {
@@ -106,6 +112,10 @@ function Game() {
 	
 	game.interval = function() {
 		var dataStart = Date.now();
+		if (param.money >= 1000000 && !param.win) {
+			alert ('У тебя 1,000,000 курочек!\nПобеда!\nПоделись с другими своим результатом!');
+			param.win = true;
+		}
 
 		param.money += game.checkFactories();
 		game.update();
@@ -117,10 +127,10 @@ function Game() {
 
 	function find(obj, childrenClass) {
 		for (var i = 0; i < obj.childNodes.length; i++) {
-		    if (obj.childNodes[i].className == childrenClass) {
-		      return obj.childNodes[i];
-		      break;
-		    }        
+			if (obj.childNodes[i].className == childrenClass) {
+				return obj.childNodes[i];
+				break;
+			}
 		}
 		return null;
 	}
@@ -137,6 +147,7 @@ function Game() {
 				factory.moneyClickTarget.innerHTML = factory.moneyClick();
 			}
 			
+	factory.titleTarget.innerHTML = factory.title + ' ['+factory.level+']'
 			factory.costTarget.innerHTML = factory.cost();
 			//factory.levelTarget.innerHTML = factory.level();
 
@@ -154,7 +165,7 @@ function Game() {
 			container.className = 'factory deactive';
 
 			elm.className = 'factory-title';
-			elm.innerHTML = game.factories[f].title;
+			elm.innerHTML = game.factories[f].title+ ' ['+factory.level+']';
 			factory.titleTarget = elm.cloneNode(true);
 			container.appendChild(factory.titleTarget);
 
@@ -177,25 +188,6 @@ function Game() {
 			factory.costTarget = elm.cloneNode(true);
 			container.appendChild(factory.costTarget);
 
-
-			// if (game.factories[f].money) {
-			// 	elm_money.className = 'factory-money';
-			// 	elm_money.innerHTML = game.factories[f].money();
-			// }
-
-			// if (game.factories[f].moneyClick) {
-			// 	elm_money.className = 'factory-money';
-			// 	elm_money.innerHTML = game.factories[f].moneyClick();
-			// }
-
-
-			
-
-			// elm_cost.className = 'factory-cost';
-			// elm_cost.innerHTML = game.factories[f].cost();
-
-
-
 			container.onclick = function() {
 				factoryUpgrade(game.factories[this.id]);
 			}
@@ -205,7 +197,25 @@ function Game() {
 			document.getElementById('factoriesContainer').appendChild(container);
 		}
 
+	var eventType;
+	if ('ontouchstart' in window) {
+		eventType = 'touchstart';
+	} else if (window.navigator.pointerEnabled) {
+		eventType = "pointerdown";
+	} else if (window.navigator.msPointerEnabled) {
+		eventType = "MSPointerDown";
+	} else {
+		eventType = "click";
+	}
+	param.clickerTarget.addEventListener(eventType, function(event) {
+			game.click();
+		}, false);
+
+
 		game.interval();
 	}
 	return init();
 }
+
+
+var chicken = new Game();

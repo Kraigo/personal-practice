@@ -1,0 +1,397 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Meatball</title>
+	<script type="text/javascript">
+
+	//Welcome to MEATBALL!
+	var x, y;
+	var dx, dy;
+	var sx, sy;
+	var mx = 265, my = 370;
+	var level = 0;
+	var game;
+	var play = 'new';
+	var levelBuild;
+	var img = new Image();
+	var debug = 0;
+	var startline;
+	var score = 0;
+	var playerName = '';
+
+	img.src = 'arca.png';
+		
+	var menu = {
+		start: function () {
+			ctx.strokeRect(150,100,290,130);
+			ctx.fillStyle = "grey";
+			ctx.fillRect(152,102,286,126);
+			ctx.fillStyle = "#9d2f23";
+			ctx.font = '40px Verdana';
+			ctx.fillText('Meatball', 205,145);
+			ctx.font = '22px Verdana';
+			ctx.fillText('hates Meat', 235,165);
+			ctx.font = "18px Verdana";
+			ctx.fillStyle = "black";
+			ctx.fillText("press [SPACE] to start",200,200)
+		},
+		lose: function () {
+			play = "lose";
+			ctx.strokeRect(150,100,290,100);
+			ctx.fillStyle = "grey";
+			ctx.fillRect(152,102,286,96);
+			ctx.fillStyle = "black";
+			ctx.font = '35px Verdana';
+			ctx.fillText('You lose', 225,145);
+			ctx.font = "18px Verdana";
+			ctx.fillText("press [SPACE] to restart",182,180)
+		},
+		win: function () {
+			play = "win";
+			level++;
+			ctx.strokeRect(150,100,290,100);
+			ctx.fillStyle = "grey";
+			ctx.fillRect(152,102,286,96);
+			ctx.fillStyle = "black";
+			ctx.font = '35px Verdana';
+			ctx.fillText('Level complete', 163,145);
+			ctx.font = "18px Verdana";
+			ctx.fillText("press [SPACE] to continue",180,180)
+		},
+		gameover: function () {
+			level=0;
+			play = 'win';
+			ctx.strokeRect(150,100,290,100);
+			ctx.fillStyle = "grey";
+			ctx.fillRect(152,102,286,96);
+			ctx.fillStyle = "black";
+			ctx.font = '35px Verdana';
+			ctx.fillText('Game complete! Eat meat ;)', 155,145);
+			ctx.font = "18px Verdana";
+			ctx.fillText("press [SPACE] to new game",168,180)
+		},
+		scores: function() {
+			var data_file = "score.json";
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", data_file, true);
+			xhr.send();
+
+			xhr.onreadystatechange  = function(){
+				if (xhr.readyState == 4 ) {
+					var jsonObj = JSON.parse(xhr.responseText);
+					var scoreTable = '<table>';
+					u = 1;
+					for (var i=jsonObj['score'].length-1; i>=0; i--) {
+						scoreTable += "<tr><td>"+(u++)+'. '+jsonObj['score'][i]['title']+"</td><td>"+jsonObj['score'][i]['value']+'</td></tr>';
+					}
+					scoreTable += '</table>';
+					document.getElementById("scoreTable").innerHTML = scoreTable;
+				}
+			}
+		},
+		submitScores: function() {
+			if (playerName == '') {
+				playerName = prompt('What is you name?');
+			}
+
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "score.php", true);
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+			xhr.send("title=" + playerName + "&value=" + score*10);
+
+			xhr.onreadystatechange  = function(){
+				if (xhr.readyState == 4 ) {
+					menu.scores();
+					score = 0;
+				}
+			}
+			return false;
+		}
+	};
+	
+	var sound = {
+		splatAudio: new Audio(),
+		wallAudio: new Audio(),
+		splat: function() {			
+			sound.splatAudio.play();
+		},
+		wall: function() {
+			sound.wallAudio.play();
+		}
+	};
+		
+	function draw(){
+		ctx.clearRect (0,0,cnv.width,cnv.height);
+		ctx.strokeStyle = "black";
+		ctx.fillStyle = 'rgba(255,255,255,0.8)';
+		ctx.fillRect (0,0,cnv.width,cnv.height); // очистка
+		ctx.fillStyle = 'black';
+		ctx.strokeRect (0,0,cnv.width,cnv.height); // рамка
+		
+		ctx.drawImage(img,0,20,60,10,mx,my,60,10); // платформа
+		
+		ctx.drawImage(img,0,0,20,20,x,y,20,20); // шар
+		ctx.font = '14px Verdana';	
+		ctx.fillText('[P]ause',530,15);
+		ctx.fillText('Score ['+score+'0]',100,15);
+		ctx.fillText('Level ['+(level+1)+']',10,15);
+		
+		x+=dx;
+		y+=dy;		
+		
+		if (levelBuild[level].length > 0) {
+			for (var i=0; i<levelBuild[level].length; i+=2) {
+				var bx = levelBuild[level][i];
+				var by = levelBuild[level][i+1];
+					ctx.drawImage(img,20,0,50,20,bx,by,50,20);
+				if (bx-10<x && bx+50>x && by-20<y && by+20>y) {
+					dy*=(-1);
+					levelBuild[level].splice (i,2);
+					i-=2;
+					sound.splat();
+					score += 10;
+				}
+				else if (bx-20<x && bx+60>x && by<y && by+20>y) {
+					dx*=(-1);
+					levelBuild[level].splice (i,2);
+					i-=2;
+					sound.splat();
+					score += 10;
+				}
+			}
+		} else {
+			if (level==3) {
+				menu.gameover();
+				menu.submitScores();
+			} else {
+				menu.win();
+				score += 100;
+			}
+			clearInterval(game);			
+		}
+		// от стенок
+		if (x<0) {
+			if (dx<0) dx*=(-1);
+			sound.wall();
+			score += 1;
+		}
+		if (x>cnv.width-20) {
+			if (dx>0) dx*=(-1);
+			sound.wall();
+			score += 1;
+		}
+		if (y<0) {
+			dy*=(-1);
+			sound.wall();
+			score += 1;
+		}
+		if (y>cnv.height-20) {
+			menu.lose();
+			clearInterval(game);
+			menu.submitScores();
+		}
+		
+		// от платформы
+		if (mx-20<x && mx+60>x && my-20<y && my+10>y && dy>0) {
+			if (mx-20<x && mx-10>x){
+				if (dx>0) {
+					dx+=2;
+					dx*=(-1);
+				} else {
+					dx-=2;
+				}
+			}
+			else if (mx+50<x && mx+60>x){
+				if (dx>0) {
+					dx+=2
+				} else {
+					dx-=2;
+					dx*=(-1);
+				}			
+			}
+			else if ((mx-10<x && mx+10>x) || (mx+30<x && mx+50>x)) {
+				dx>0? dx++ : dx--;
+			}
+			else {
+				dx>0? dx=8 : dx=-8
+			}
+			dy*=(-1);
+			sound.wall();
+			score += 3;
+		}
+		
+		if (debug == 1) {
+			mx = x-20;
+		}
+		
+		cnv.onmousemove = function (e) {
+			if (e.pageX-cnv.offsetLeft<cnv.width-30 &&
+				e.pageX>cnv.offsetLeft+30 &&
+				debug == 0) {
+				mx = e.pageX-cnv.offsetLeft-30;
+			}
+		}
+
+		
+		// линия старта
+		if (startline==1) {
+		
+			if (mx>0 && mx<200) {
+				sy=-6;
+				sx=8;
+			
+			}
+			else if (mx>200 && mx<265) {
+				sy=-8;
+				sx=6;
+			
+			}
+			else if (mx>265 && mx<330) {
+				sy=-8;
+				sx=-6;
+			
+			}
+			else if (mx>330 && mx<590) {
+				sy=-6;
+				sx=-8;
+			}
+			ctx.beginPath();
+			ctx.moveTo(x+10,y+10);
+			ctx.lineTo(x+sx*4+10,y+sy-10);
+			ctx.stroke();
+		}
+		
+	}
+	
+	function init() {
+		cnv = document.getElementById('cnv');
+		ctx = cnv.getContext('2d');
+		ctx.fillStyle = 'rgba(255,255,255,0.8)';
+		ctx.fillRect (0,0,cnv.width,cnv.height); // очистка
+		ctx.strokeRect (0,0,cnv.width,cnv.height); // рамка
+		x = 285;
+		y = 350;
+		dx = 0;
+		dy = 0;
+		sx = -8;
+		sy = -6;
+		startline = 1;
+		levelBuild = [
+		[30,30,90,30,150,30,210,30,270,30,330,30,390,30,450,30,510,30,
+		 30,60,90,60,150,60,210,60,270,60,330,60,390,60,450,60,510,60,
+		 30,90,90,90,150,90,210,90,270,90,330,90,390,90,450,90,510,90],
+		[30,30,90,30,150,30,390,30,450,30,510,30,
+		 30,60,90,60,150,60,210,60,270,60,330,60,390,60,450,60,510,60,
+		 30,90,90,90,150,90,210,90,270,90,330,90,390,90,450,90,510,90,
+		 210,120,270,120,330,120],
+		[30,30,210,30,270,30,330,30,510,30,
+		 30,60,90,60,450,60,510,60,
+		 30,90,90,90,150,90,390,90,450,90,510,90,
+		 90,120,150,120,210,120,270,120,330,120,390,120,450,120,
+		 150,150,210,150,270,150,330,150,390,150,
+		 210,180,270,180,330,180],
+		[30,30,90,30,150,30,210,30,270,30,330,30,390,30,450,30,510,30,
+		 30,60,90,60,150,60,210,60,270,60,330,60,390,60,450,60,510,60,
+		 30,90,90,90,150,90,210,90,270,90,330,90,390,90,450,90,510,90,
+		 30,120,90,120,150,120,210,120,270,120,330,120,390,120,450,120,510,120,
+		 30,150,90,150,150,150,210,150,270,150,330,150,390,150,450,150,510,150,
+		 30,180,90,180,150,180,210,180,270,180,330,180,390,180,450,180,510,180,
+		 30,210,90,210,150,210,210,210,270,210,330,210,390,210,450,210,510,210],
+		[]
+		];
+		sound.splatAudio.src = "splat.wav";
+		sound.wallAudio.src = "wall.wav";
+		if (play=="new") {
+			menu.scores();
+			menu.start();
+		}
+	}
+	
+	function whatkey (e) {
+		if (e.keyCode==32 && play=='new') {
+			play = 'play';
+			game = setInterval (draw,33);
+		}
+		else if(e.keyCode==80 && play=='pause') {
+			play = 'play';
+			game = setInterval (draw,33);
+		}
+		else if(e.keyCode==80 && play=='play') {
+			play = 'pause';
+			clearInterval (game);
+			ctx.fillStyle = "rgba(0,0,0,0.3)";
+			ctx.fillRect(1,1,cnv.width,cnv.height);
+			ctx.fillStyle = "black";
+			ctx.fillRect(250,100,30,100);
+			ctx.fillRect(300,100,30,100);
+			ctx.font = "20px Arial";
+			ctx.fillText("press [P] to continue",205,250)
+		}
+		else if(e.keyCode==32 && play=='lose') {
+			play = 'play';
+			init();
+			game = setInterval (draw,33);
+		}
+		else if(e.keyCode==32 && play=='win') {
+			play = 'play';
+			init();
+			game = setInterval (draw,33);
+		}
+		else if(e.keyCode==221 && play=='play') {
+			debug == 1? debug = 0: debug = 1;
+		}
+		else if(e.keyCode==32 && play=='play' && dx==0 && dy==0) {
+			startline = 0;
+			dx = sx;
+			dy = sy;
+		}
+	}
+	
+	
+</script>
+<style type="text/css">
+*{margin:0;padding:0}
+body {
+	background: url(background.jpg) left top;
+}
+#box {
+	width:800px;
+	margin:0 auto;
+}
+#cnv {
+	margin-left:105px;
+	cursor: none;
+}
+h1 {
+	height:40px;
+	font-family: 'Verdana';
+	font-size:30px;
+	text-align:center;
+	color:#9d2f23;
+	text-shadow:#511c0f 2px 2px;
+	}
+#scoreTable {
+	font-family: 'Verdana';
+	font-size: 20px;
+	background-color: rgba(255,255,255,0.8);
+	margin: 20 105px;
+	border: 1px solid #888;
+	padding: 0 20px;
+}
+#scoreTable table {
+	width: 100%;
+	border-spacing: 10px;
+	border-collapse: separate;
+}
+
+</style>
+<style type="text/css"></style></head>
+
+<body onload="init();" onKeyUp="whatkey(event);">
+<div id="box" onMouseUp="whatkey(event);">
+	<h1>Meatball hates Meat</h1>
+	<canvas id="cnv" width="590" height="400"></canvas>
+	<div id="scoreTable"></div>
+</div>
+
+</body></html>

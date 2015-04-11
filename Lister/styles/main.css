@@ -1,0 +1,90 @@
+@import 'listericon.css';
+
+table th {text-align: center; color: #aaa; font-size: 0.8em;}
+table tr td:nth-child(1) {text-align: center; color: #666;}
+table tr td:nth-child(2) {text-align: center;}
+
+
+table tr:hover td,
+table tr:active td {
+	background-color: #F5FCFF;
+}
+table tr td:nth-child(3):hover {
+	cursor: pointer;
+}
+
+.control-container {
+	-webkit-transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+	-webkit-transform: translate(10px, 0);
+	-moz-transform: translate(10px, 0);
+	transform: translate(10px, 0);	
+	visibility: hidden;
+	white-space: nowrap;
+	opacity: 0;
+}
+.control-item {
+	color: #aaa;
+	margin: 0 0.3em;
+}
+.control-item:hover {
+	cursor: pointer;
+	color: #000;
+	text-decoration: none;
+}
+tr:hover .control-container {
+	-webkit-transform: translate(0, 0);
+	-moz-transform: translate(0, 0);
+	transform: translate(0, 0);
+	visibility: visible;
+	opacity: 1;
+}
+
+.row-margin {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.lister-table {
+	margin: 0;
+}
+.item-more {
+	border: 1px solid #DDD;
+	padding: 10px;
+	margin-top: 10px;
+	background-color: #F7F7F7;
+}
+
+
+h1 .badge {
+	vertical-align: middle;
+}
+
+
+.navbar-collapse {
+	display: block;
+}
+.navbar-holder {
+	height: 50px;
+}
+
+
+.rating input {
+	display: none;
+}
+.rating label:before {
+	content:'★';
+}
+.rating label {
+	color: #ea0;
+	font-size: 1.6em;
+	margin: 0;
+	  vertical-align: middle;
+}
+
+.rating input:checked ~ label {
+	color: #ddd;
+}
+.rating input:checked + label {
+	color: #ea0
+}

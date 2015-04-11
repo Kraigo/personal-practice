@@ -1,0 +1,89 @@
+<div class="container-fluid">
+
+		<h1>
+		<a href="/lister/#/">Список</a> / 
+		Редактируем {{listId}}</h1>
+
+	<form class="form-horizontal">
+		<div class="form-group">
+			<div class="col-sm-2 control-label">
+				Название
+			</div>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" placeholder="Название" name="title" ng-model="list.title">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">
+				Тип
+			</div>
+			<div class="col-sm-10">
+				<select name="type" class="form-control" ng-model="list.category">
+					<option value="book">Книга</option>
+					<option value="movie">Фильм</option>
+					<option value="serie">Сериал</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">
+				Дата создания
+			</div>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" placeholder="Дата" name="date" ng-model="list.date">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">
+				Рейтинг
+			</div>
+			<div class="col-sm-10">
+				<fieldset class="rating">
+					<input type="radio" name="rating" value="" checked />
+					<input type="radio" id="star5" name="rating" value="1" ng-model="list.rating" />
+					<label for="star5"></label>
+					<input type="radio" id="star4" name="rating" value="2" ng-model="list.rating" />
+					<label for="star4"></label>
+					<input type="radio" id="star3" name="rating" value="3" ng-model="list.rating" />
+					<label for="star3"></label>
+					<input type="radio" id="star2" name="rating" value="4" ng-model="list.rating" />
+					<label for="star2"></label>
+					<input type="radio" id="star1" name="rating" value="5" ng-model="list.rating" />
+					<label for="star1"></label>
+					<span ng-show="list.rating">({{ list.rating }})</span>
+				</fieldset>
+				
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">
+				Комментарий
+			</div>
+			<div class="col-sm-10">
+				<textarea class="form-control" rows="3" ng-model="list.comment"></textarea>
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="list.modified">
+
+			<div class="col-sm-10 col-sm-offset-2">
+				Последнее изменение:  {{list.modified}}
+			</div>
+		</div>
+
+		<div class="form-group">
+
+			<div class="col-sm-10 col-sm-offset-2 text-right">
+				<button class="btn btn-danger" ng-click="removeList()">
+					<span class="glyphicon glyphicon-remove"></span> Удалить
+				</button>	
+				<button class="btn btn-primary" ng-click="saveList()">
+					<span class="glyphicon glyphicon-ok"></span> Сохранить изменения
+				</button>			
+			</div>
+
+		</div>
+	</form>
+	
+</div>
+

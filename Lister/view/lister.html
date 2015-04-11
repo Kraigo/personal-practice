@@ -1,0 +1,162 @@
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+
+			<div class="navbar-header">
+				<label type="button" class="navbar-toggle collapsed">
+					<input type="checkbox" ng-hide="true" ng-model="navbarShow">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</label>
+			</div>
+
+			<div class="collapse navbar-collapse" ng-show="navbarShow">
+				<form class="navbar-form navbar-left">
+					<div class="form-group">
+						<div class="btn-group btn-group-sm">
+							<label class="checkbox-inline btn" ng-class="(filters=='') ? 'btn-primary' : 'btn-default'">
+								<input type="radio" ng-model="filters" name="filterCategory" value="" style="display: none;"> Все
+							</label>
+							<label class="checkbox-inline btn" ng-class="(filters=='book') ? 'btn-primary' : 'btn-default'">
+								<input type="radio" ng-model="filters" name="filterCategory" value="book" style="display: none;"> Книги
+							</label>
+							<label class="checkbox-inline btn" ng-class="(filters=='movie') ? 'btn-primary' : 'btn-default'">
+								<input type="radio" ng-model="filters" name="filterCategory" value="movie" style="display: none;"> Фильмы
+							</label>
+							<label class="checkbox-inline btn" ng-class="(filters=='serie') ? 'btn-primary' : 'btn-default'">
+								<input type="radio" ng-model="filters" name="filterCategory" value="serie" style="display: none;"> Сериалы
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+
+						<input type="text" ng-model="search" placeholder="Поиск" class="form-control input-sm">
+					</div>
+				</form>
+				<form class="navbar-form navbar-right">
+					<div class="form-group">
+						<span class="btn btn-default input-sm" ng-click="logout()">Выйти</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</nav>
+	<div class="navbar-holder"></div>
+
+
+<div class="container-fluid">
+
+	<h1>Мой список <span class="badge">{{listers.length}}</span></h1>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+
+			<form ng-submit="addList()">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="form-group">
+							<select name="type" class="form-control" ng-model="listCategory">
+								<option value="book">Книга</option>
+								<option value="movie">Фильм</option>
+								<option value="serie">Сериал</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-sm-8">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Название" name="title" ng-model="listTitle">
+						</div>
+					</div>
+
+					<div class="col-sm-2">
+						<div class="form-group">
+							<button class="btn btn-primary btn-block" type="submit">
+								<span class="glyphicon glyphicon-plus"></span> Добавить
+							</button>
+						</div>
+					</div>				
+				</div>
+			</form>
+
+		</div>
+
+		<div class="panel-body">
+
+			<div class="alert" role="alert" ng-show="alert.msg" ng-class="(alert.error) ? 'alert-danger' : 'alert-success'">
+				<div aria-label="close" class="close" ng-click="alert.msg = null">
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+				{{alert.msg}}
+			</div>
+
+			<table class="table table-hover lister-table">
+				<col width="1" />
+				<col width="1" />
+				<col />
+				<col width="1" />
+
+				<thead>
+					<tr ng-click="removeList(list.id)">
+						<th>Дата</th>
+						<th>Тип</th>
+						<th>Название</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="list in listers | filter:filters | filter:search | orderBy:'-date' | pagination: curPage * pageSize | limitTo: pageSize" class="list-item" >
+						<td>
+							{{list.date | monthAndDate}}
+						</td>
+						<td>
+							<span class="icon icon-{{list.category}}"></span>
+						</td>
+						<td ng-click="editList(list.id)">
+							{{list.title}}
+							<div ng-show="list.showMore" class="item-more">
+								<p>Рейтинг: {{list.rating}}</p>
+								<p>Комментарий: {{list.comment}}</p>
+							</div>
+						</td>
+						<td>
+							<div class="control-container">
+								<label class="glyphicon glyphicon-eye-open control-item" ng-class="(list.showMore) ? 'glyphicon-eye-close' : 'glyphicon-eye-open'">
+									<input type="checkbox" ng-model="list.showMore" ng-hide="true">
+								</label>
+								<span class="glyphicon glyphicon-pencil control-item" title="Редактировать" ng-click="editList(list.id)"></span>
+								<span class="glyphicon glyphicon-trash control-item" title="Удалить" ng-click="removeList(list.id)"></span>
+							</div>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Pagination -->
+
+	<nav class="pagination-div text-center" ng-show="listers.length">
+		<ul class="pagination">
+			<li>
+				<a href aria-label="Previous" ng-click="prePage()">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+
+			<li>
+				<span>Страница {{curPage + 1}} из {{ numberOfPages() }}</span>
+			</li>
+			<li>
+				<a href aria-label="Next" ng-click="nextPage()">
+
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+
+		</ul>
+	</nav>
+
+</div>

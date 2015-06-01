@@ -1,0 +1,93 @@
+body {
+	text-align: center;
+	font-family: Arial, serif;
+}
+.game {
+	display: inline-block;
+	padding: 50px 10px;
+}
+
+
+.table {
+	background-color: #E7E7E7;
+	position: relative;
+	display: inherit;
+	padding: 1px;
+}
+.table.overlay:before {
+	content:'';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.2);
+	left: 0;
+	top: 0;
+}
+.table.overlay:after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -2em;
+	margin-top: -1em;
+	color: #FFF;
+	font-size: 1.3em;
+	font-weight: bold;
+	text-shadow: #A6A6A6 1px 1px 0;
+}
+.table.win:after {
+	content: 'You win!';
+}
+.table.loose:after {
+	content: 'You lose!';
+}
+
+.row:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+.cell {
+	display: block;
+	float: left;
+	margin: 1px;
+	width: 20px;
+	height: 20px;
+	background-color: rgb(255, 255, 255);
+	border-radius: 3px;
+	border: none;
+	text-align: center;
+	color: #FFF;
+	font-size: 0.8em;
+	line-height: 20px;
+}
+
+.cell.open {
+	background-color: #F0B878;
+}
+
+.cell.flag {
+	background-color: #E86464;
+}
+
+.cell.mine.open {
+	background-color: #CD3E3E;
+}
+.cell.mine.open.flag {
+	background-color: #76C860;
+}
+
+
+.game-input {
+	width: 30px;
+	text-align: center;
+	border: none;
+	border-bottom: 1px solid #E7E7E7;
+}
+
+.game-button {
+	border: none;
+	padding: 0.5em 0.8em;
+	border-radius: 2px;
+	box-shadow: 1px 1px #B3B3B3;
+}

@@ -1,12 +1,15 @@
 var app = angular.module('miner', []);
-app.controller('MinerCtrl', function($scope) {
+app.controller('MinerCtrl', function($scope, $window) {
 
 
-	$scope.sizeX = 10;
+	$scope.sizeX = 30;
 	$scope.sizeY = 10;
 	$scope.mines = 10;
 
 	$scope.newGame = function() {
+		var maxRow = ($window.innerWidth - 20) / 22 | 0; // Max cell in window width
+		if ($scope.sizeX > maxRow) $scope.sizeX = maxRow;
+
 		$scope.game = new Miner([$scope.sizeX, $scope.sizeY], $scope.mines);
 	};
 

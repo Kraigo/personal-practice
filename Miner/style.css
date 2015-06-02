@@ -1,6 +1,7 @@
 body {
 	text-align: center;
 	font-family: Arial, serif;
+	margin: 0;
 }
 .game {
 	display: inline-block;

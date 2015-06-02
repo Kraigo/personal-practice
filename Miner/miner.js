@@ -9,9 +9,9 @@ function Miner(size, mines) {
 	miner.end = false;
 
 	function init () {
-		for (var i = 0; i < miner.size[0]; i++) {
+		for (var i = 0; i < miner.size[1]; i++) {
 			var row = [];
-			for (var j = 0; j < miner.size[1]; j++) {
+			for (var j = 0; j < miner.size[0]; j++) {
 				var cell = {
 					mine: false,
 					flag: false,

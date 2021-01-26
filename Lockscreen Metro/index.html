@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lockscreen Metro</title>
+</head>
+<body>
+    <div class="wrap im">
+        <div class="circle im c1 out">
+          <div class="circle im c2">
+            <div class="circle im c3">
+               <div class="circle c4">
+              </div>
+            </div>
+          </div>  
+        </div>
+          
+        <div class="info">
+          <p>12:30</p>
+          <p>четверг</p>
+          <p>5 апреля</p>
+        </div>
+          
+    </div>
+    
+    <style>
+        *{padding: 0; margin: 0;}
+
+.circle {
+
+  border-radius: 50%;
+
+  position: relative;
+
+  padding: 40px;
+
+  width: 100%;
+
+  height: 100%;
+
+  box-sizing: border-box;
+
+  -moz-box-sizing: border-box;
+
+  -webkint-box-sizing: border-box;
+
+  background-color: #fff;
+
+  transition: all 0.7s ease;
+
+  -moz-transition: all 0.7s ease;
+
+  -webkit-transition: all 0.7s ease;
+
+}
+
+.out { width: 350px; height: 350px; margin: 0 auto; }
+
+.im { background-image: url(https://images.unsplash.com/photo-1441239372925-ac0b51c4c250?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80) }
+
+.wrap { padding:50px 35px; width: 350px; margin:0 auto; margin-top:20px; background-position: 50% 0;}
+
+.info {font: 45px/50px "Segoe WP", "Segoe UI", Segoe; color:#fff; padding-top:35px}
+
+.c1 { transform: rotate(45deg); -moz-transform: rotate(45deg); -webkit-transform: rotate(45deg); background-position: 50% -50px; }
+
+.c2 { transform: rotate(-90deg); -moz-transform: rotate(-90deg); -webkit-transform: rotate(-90deg); background-position: 50% -90px;}
+
+.c3 { transform: rotate(135deg); -moz-transform: rotate(135deg); -webkit-transform: rotate(135deg); background-position: 50% -130px;}
+
+.c4:hover {
+
+  opacity: 0;
+
+}
+
+.circle:hover {transform: rotate(0); -moz-transform: rotate(0); -webkit-transform: rotate(0);}
+    </style>
+</body>
+</html>

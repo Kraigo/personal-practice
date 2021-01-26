@@ -1,0 +1,109 @@
+html {
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+  
+  /* Switch */
+  .switch {
+      display: inline-block;
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+  .switch:hover {
+      cursor: pointer;
+  }
+  .switch input {
+      display: none;
+  }
+  
+  .switch .switch-handle {
+      position: relative;
+      display: block;
+      height: 30px;
+      width: 80px;
+      border: 2px solid rgba(20, 66, 122, 0.5);
+      transition: all 0.2s ease;
+      border-radius: 40px;
+  }
+  
+      .switch .switch-handle:before {
+          content: '';
+          position: absolute;
+          top: 1px;
+          height: 28px;
+          width: 28px;
+          margin-left: -29px;
+          background-color: rgba(20, 66, 122, 0.5);
+          transition: all 0.25s ease;
+          border-radius: 50%;
+      }
+  
+      .switch .switch-handle:after {
+          position: absolute;
+          top: 0;
+          line-height: 30px;
+          padding: 0 5px;
+          font-size: 0.8em;
+          text-align: center;
+          width: 100%;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          text-align: center;      
+      }
+  
+  .switch input:checked ~ .switch-handle:before {
+      left: 100%;
+      background-color: #fff;
+  }
+  
+  .switch input:checked ~ .switch-handle {
+      border-color: #009ee3;
+      background-color: #009ee3;
+  }
+  
+  .switch input:not(:checked) ~ .switch-handle:before {
+      left: 30px;
+  }
+  
+  .switch input:checked ~ .switch-handle:after {
+      content: attr(data-true);
+      left: 0;
+      color: #fff;
+      padding-right: 30px;
+  }
+  
+  .switch input:not(:checked) ~ .switch-handle:after {
+      content: attr(data-false);
+      right: 0;
+      color: rgba(20, 66, 122, 0.5);    
+      padding-left: 30px;
+  }
+  
+  
+  /* DEMO */
+  h1 {
+    color: #009ee3;
+    width: 100%;
+    margin-bottom: 50px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:  flex-start;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .group {
+    flex-basis: 50%;
+    text-align: center;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+  
+  @media (min-width: 768px) {
+    .group {
+      flex-basis: 33.3%;
+    }
+  }

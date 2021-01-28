@@ -1,41 +1,115 @@
-var app = angular.module('sudoku', []);
+'use strict';
 
-app.controller('MainCtrl', function($scope) {
-  
-    $scope.battlefield = [
-        [null, null, 5, null, null, null, 7, null, null],
-        [null, null, null, null, null, 2, null, 3, 4],
-        [null, null, null, null, null, 4, 8, null, null],
-        [null, 5, null, null, null, null, null, 9, 2],
-        [null, null, null, 9, null, null, 6, null, 8],
-        [null, 8, 4, null, 2, null, 5, null, null],
-        [null, 2, null, null, 5, 1, null, null, null],
-        [null, null, null, null, 7, 8, 2, null, 9],
-        [null, null, 6, null, null, null, null, 7, null]
-    ];
+document.addEventListener("DOMContentLoaded", function() {
+    const testData = [[5,0,2],[7,0,6],[2,1,5],[3,1,7],[4,1,8],[4,2,5],[8,2,6],[5,3,1],[9,3,7],[2,3,8],[9,4,3],[6,4,6],[8,4,8],[8,5,1],[4,5,2],[2,5,4],[5,5,6],[2,6,1],[5,6,4],[1,6,5],[7,7,4],[8,7,5],[2,7,6],[9,7,8],[6,8,2],[7,8,7]];
 
-    $scope.can = function(number, row, col) {
-        var size = $scope.battlefield.length;
-        var squareSize = 3;
-        var colStart = Math.floor(col / squareSize) * squareSize;
-        var rowStart = Math.floor(row / squareSize) * squareSize;
 
-        for (var r = rowStart; r < rowStart + squareSize; r++) {
-            for (var c = colStart; c < colStart + squareSize; c++) {
-                if ($scope.battlefield[r][c] === number) {
+    const battlefield = new Battlefield();
+    battlefield.build('#battlefield')
+
+    for (let [number, row, column] of testData) {
+        battlefield.add(number, row, column);
+    }
+
+    document.getElementById('walk')
+        .addEventListener('click', () => {
+            battlefield.walk();
+        })
+
+    document.getElementById('clear')
+        .addEventListener('click', () => {
+            battlefield.clear();
+        })
+    
+
+})
+
+class Battlefield {
+
+    size = 3 * 3;
+    squareSize = 3;
+    area = null;
+    shouldBe = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    inputValidation(event) {
+        const value = event.target.value
+            .replace(/[^1-9]/g, '')
+            .substr(-1);
+        event.target.value = value;
+    }
+
+    constructor() {
+        this.area = [];
+        for (var r = 0; r < this.size; r++) {
+            this.area[r] = [];
+            for (var c = 0; c < this.size; c++) {
+                this.area[r][c] = document.createElement('input')
+            }
+        }
+    }
+
+    build(selector) {
+        const container = document.querySelector(selector);
+
+        const table = document.createElement("table");
+
+        
+        for (var r = 0; r < this.area.length; r++) {
+
+            const tr = document.createElement("tr");
+            for (var c = 0; c < this.area[r].length; c++) {
+                const td = document.createElement("td");
+                const input = this.area[r][c];
+                input.addEventListener('input', this.inputValidation)
+
+                td.appendChild(input);
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+
+        container.appendChild(table);
+    }
+
+    add(number, row, col) {
+        const input = this.area[row][col];
+        input.value = String(number);
+    }
+
+    isEmpty(row, col) {
+        const input = this.area[row][col];
+        return input.value !== '';
+    }
+
+    clear() {
+        for (var r = 0; r < this.area.length; r++) {
+            for (var c = 0; c < this.area[r].length; c++) {
+                const input = this.area[r][c];
+                input.value = '';
+            }
+        }
+    }
+
+    can(number, row, col) {
+        var colStart = Math.floor(col / this.squareSize) * this.squareSize;
+        var rowStart = Math.floor(row / this.squareSize) * this.squareSize;
+
+        for (var r = rowStart; r < rowStart + this.squareSize; r++) {
+            for (var c = colStart; c < colStart + this.squareSize; c++) {
+                if (this.area[r][c].value === number) {
                     return false;
                 }
             }
         }
 
-        for (var c = 0; c < size; c++) {
-            if ($scope.battlefield[row][c] === number) {
+        for (var c = 0; c < this.area.length; c++) {
+            if (this.area[row][c].value === number) {
                 return false;
             }
         }
 
-        for (var r = 0; r < size; r++) {
-            if ($scope.battlefield[r][col] === number) {
+        for (var r = 0; r < this.area[0].length; r++) {
+            if (this.area[r][col].value === number) {
                 return false;
             }
         }
@@ -43,24 +117,15 @@ app.controller('MainCtrl', function($scope) {
         return true;
     }
 
-    $scope.isEmpty = function(row, col) {
-      return $scope.battlefield[row][col] != null;
-    }
-
-    $scope.add = function(number, row, col) {
-      $scope.battlefield[row][col] = number;
-    }
-
-    $scope.checkSquare = function(number, row, col) {
-        var squareSize = 3;
-        var colStart = Math.floor(col / squareSize) * squareSize;
-        var rowStart = Math.floor(row / squareSize) * squareSize;
+    checkSquare(number, row, col) {
+        var colStart = Math.floor(col / this.squareSize) * this.squareSize;
+        var rowStart = Math.floor(row / this.squareSize) * this.squareSize;
         var result = null
 
-        for (var r = rowStart; r < rowStart + squareSize; r++) {
-            for (var c = colStart; c < colStart + squareSize; c++) {
-                if ($scope.isEmpty(r, c)) continue;
-                if ($scope.can(number, r, c)) {
+        for (var r = rowStart; r < rowStart + this.squareSize; r++) {
+            for (var c = colStart; c < colStart + this.squareSize; c++) {
+                if (this.isEmpty(r, c)) continue;
+                if (this.can(number, r, c)) {
                     if (result) {
                         return false;
                     }
@@ -72,63 +137,54 @@ app.controller('MainCtrl', function($scope) {
         return result;
     }
 
-    $scope.checkVariants = function(row, col) {
-      var size = $scope.battlefield.length;
-      var allVariants = [];
-      var shouldBe = [1,2,3,4,5,6,7,8,9];
+    checkVariants(row, col) {
+      let allVariants = [];
       
-      for (var c = 0; c<size; c++) {
-        allVariants.push($scope.battlefield[row][c]);
+      for (let c = 0; c < this.area.length; c++) {
+        allVariants.push(this.area[row][c].value);
       }
       
-      for (var r = 0; r<size; r++) {      
-        allVariants.push($scope.battlefield[r][col]);      
+      for (let r = 0; r < this.area[0].length; r++) {      
+        allVariants.push(this.area[r][col].value);      
       }
       
+      const colStart = Math.floor(col / this.squareSize) * this.squareSize;
+      const rowStart = Math.floor(row / this.squareSize) * this.squareSize;
       
-      var colStart = Math.floor(col/3) * 3;
-      var rowStart = Math.floor(row/3) * 3;
-      
-      for (var r = rowStart; r < rowStart + 3; r++ ) {
-        for (var c = colStart; c < colStart + 3; c++) {
-          allVariants.push($scope.battlefield[r][c]);
+      for (var r = rowStart; r < rowStart + this.squareSize; r++ ) {
+        for (var c = colStart; c < colStart + this.squareSize; c++) {
+          allVariants.push(this.area[r][c].value);
         }
       }
-      
-      allVariants = _.compact(allVariants);
-      allVariants = _.uniq(allVariants);
-      allVariants = _.difference(shouldBe, allVariants);
-      
-      return allVariants;
+      allVariants = allVariants
+        .filter(v => v)
+        .filter((v, i, arr) => arr.indexOf(v) === i);
+
+      return this.shouldBe
+        .filter(s => !allVariants.includes(s))
     }
 
-    $scope.walk = function() {
-        var size = $scope.battlefield.length;
-        var shouldBe = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-        for (var r = 0; r < size; r = r + 3) {
-            for (var c = 0; c < size; c = c + 3) {
-                // if ($scope.battlefield[r][c]) continue;
-
-                for (var n of shouldBe) {
-                    var result = $scope.checkSquare(n, r, c);
+    walk() {
+        for (var r = 0; r < this.area.length; r = r + this.squareSize) {
+            for (var c = 0; c < this.area[r].length; c = c + this.squareSize) {
+                for (var n of this.shouldBe) {
+                    var result = this.checkSquare(n, r, c);
                     if (result) {
-                        $scope.add(n, result.row, result.col);
+                        this.add(n, result.row, result.col);
                     }
                 }
             }
         }
 
-        for (var r = 0; r < size; r ++) {
-            for (var c = 0; c < size; c ++) {
-                if ($scope.isEmpty(r, c)) continue;
+        for (var r = 0; r < this.area.length; r ++) {
+            for (var c = 0; c < this.area[r].length; c ++) {
+                if (this.isEmpty(r, c)) continue;
 
-                var allVariants = $scope.checkVariants(r,c);        
+                var allVariants = this.checkVariants(r, c);        
                 if (allVariants.length === 1) {
-                  $scope.add(allVariants[0], r, c)
+                    this.add(allVariants[0], r, c)
                 }
             }
         }
     }
-
-})
+}

@@ -7,21 +7,10 @@
     <title>Sudoku</title>
 </head>
 <body>
-  <div ng-app="sudoku" ng-controller="MainCtrl">
-    <table>
-      <tr ng-repeat="row in battlefield track by $index">
-        {{row}}
-        <td ng-repeat="col in row track by $index" ng-click="check($parent.$index, $index)">
-          {{col}}
-        </td>
-      </tr>
-    </table>
-    <br>
-    <button ng-click="walk()">Walk</button>
-  </div>
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
+  <div id="battlefield"></div>
+  <button id="walk">Walk</button>
+  <button id="clear">Clear</button>
+  
   <script src="main.js"></script>
 </body>
 </html>

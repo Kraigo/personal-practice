@@ -22,3 +22,11 @@ table tr:nth-child(3n):not(:last-child) td {
 td.active {
   background-color: red;
 }
+
+td input {
+  padding: 5px;
+  height: 1em;
+  width: 1em;
+  text-align: center;
+  border: none;
+}

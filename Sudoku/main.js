@@ -1,5 +1,7 @@
 'use strict';
 
+let DEBUG = true;
+
 document.addEventListener("DOMContentLoaded", function() {
     const battlefield = new Battlefield();
     battlefield.build('#battlefield')
@@ -19,14 +21,28 @@ document.addEventListener("DOMContentLoaded", function() {
             battlefield.clear();
         })
 
+    document.getElementById('random')
+        .addEventListener('click', () => {
+            battlefield.randomSolve();
+        })
+
     document.getElementById('log')
         .addEventListener('click', () => {
-            const data = battlefield.pull();
+            const data = battlefield.getData();
             console.log(JSON.stringify(data));
         })
     document.getElementById('debug')
         .addEventListener('click', () => {
-            document.body.classList.toggle('debug')
+            DEBUG = !DEBUG
+            document.body.classList.toggle('debug', DEBUG)
+        })
+    document.getElementById('check')
+        .addEventListener('click', () => {
+            var hasError = battlefield.checkErrors();
+            if (hasError) {
+                hasError.input.classList.add('has-error');
+            }
+            console.log("Has Error", !!hasError)
         })
 
     document.getElementById('load0')
@@ -39,6 +55,12 @@ document.addEventListener("DOMContentLoaded", function() {
             const testData = [[9, 0, 1],[2, 0, 3],[6, 0, 4],[3, 0, 5],[8, 0, 7],[8, 1, 1],[3, 1, 7],[6, 3, 2],[9, 3, 3],[5, 3, 5],[8, 3, 6],[2, 4, 0],[5, 4, 1],[6, 4, 7],[9, 4, 8],[1, 5, 2],[6, 5, 3],[4, 5, 5],[2, 5, 6],[3, 6, 4],[6, 7, 1],[9, 7, 7],[3, 8, 1],[1, 8, 3],[5, 8, 4],[6, 8, 5],[2, 8, 7]];
             battlefield.load(testData);
         })
+        
+    document.getElementById('load2')
+        .addEventListener('click', () => {
+            const testData = [[9,0,2],[5,0,6],[5,1,0],[8,1,8],[7,2,1],[4,2,3],[8,2,5],[9,2,7],[9,3,0],[7,3,8],[3,4,1],[7,4,2],[4,4,6],[8,4,7],[4,5,0],[1,5,8],[2,6,1],[6,6,3],[5,6,5],[7,6,7],[8,7,0],[5,7,8],[5,8,2],[3,8,6]];
+            battlefield.load(testData);
+        })
 
     document.getElementById('load0').click();
 
@@ -46,10 +68,12 @@ document.addEventListener("DOMContentLoaded", function() {
 })
 
 class Cell {
-    _variants = []
 
-    constructor(input) {
+    constructor(input, r, c) {
+        this._variants = [];
         this.input = input;
+        this.row = r;
+        this.col = c;
         input.addEventListener('input', this.inputValidation)
     }
 
@@ -96,11 +120,11 @@ class Battlefield {
 
     constructor() {
         this.area = [];
-        for (var r = 0; r < this.size; r++) {
+        for (let r = 0; r < this.size; r++) {
             this.area[r] = [];
-            for (var c = 0; c < this.size; c++) {
+            for (let c = 0; c < this.size; c++) {
                 const input = document.createElement('input')
-                this.area[r][c] = new Cell(input);
+                this.area[r][c] = new Cell(input, r, c);
             }
         }
     }
@@ -111,10 +135,10 @@ class Battlefield {
         const table = document.createElement("table");
 
 
-        for (var r = 0; r < this.area.length; r++) {
+        for (let r = 0; r < this.area.length; r++) {
 
             const tr = document.createElement("tr");
-            for (var c = 0; c < this.area[r].length; c++) {
+            for (let c = 0; c < this.area[r].length; c++) {
                 const td = document.createElement("td");
                 const input = this.area[r][c].input;
 
@@ -133,12 +157,21 @@ class Battlefield {
         for (let [number, row, column] of data) {
             this.add(number, row, column);
         }
+
+        if (DEBUG) {
+            for (let r = 0; r < this.area.length; r++) {
+                for (let c = 0; c < this.area[r].length; c++) {
+                    const cell = this.area[r][c];
+                    cell.input.className = ''
+                }
+            }
+        }
     }
 
-    pull() {
+    getData() {
         const result = [];
-        for (var r = 0; r < this.area.length; r++) {
-            for (var c = 0; c < this.area[r].length; c++) {
+        for (let r = 0; r < this.area.length; r++) {
+            for (let c = 0; c < this.area[r].length; c++) {
                 if (!this.area[r][c].value) continue;
                 result.push([Number(this.area[r][c].value), r, c]);
             }
@@ -152,8 +185,8 @@ class Battlefield {
     }
 
     clear() {
-        for (var r = 0; r < this.area.length; r++) {
-            for (var c = 0; c < this.area[r].length; c++) {
+        for (let r = 0; r < this.area.length; r++) {
+            for (let c = 0; c < this.area[r].length; c++) {
                 const input = this.area[r][c];
                 input.value = '';
             }
@@ -161,24 +194,24 @@ class Battlefield {
     }
 
     isAvailable(number, row, col) {
-        var colStart = Math.floor(col / this.squareSize) * this.squareSize;
-        var rowStart = Math.floor(row / this.squareSize) * this.squareSize;
+        let colStart = Math.floor(col / this.squareSize) * this.squareSize;
+        let rowStart = Math.floor(row / this.squareSize) * this.squareSize;
 
-        for (var r = rowStart; r < rowStart + this.squareSize; r++) {
-            for (var c = colStart; c < colStart + this.squareSize; c++) {
+        for (let r = rowStart; r < rowStart + this.squareSize; r++) {
+            for (let c = colStart; c < colStart + this.squareSize; c++) {
                 if (this.area[r][c].value === number) {
                     return false;
                 }
             }
         }
 
-        for (var c = 0; c < this.area.length; c++) {
+        for (let c = 0; c < this.area.length; c++) {
             if (this.area[row][c].value === number) {
                 return false;
             }
         }
 
-        for (var r = 0; r < this.area[row].length; r++) {
+        for (let r = 0; r < this.area[row].length; r++) {
             if (this.area[r][col].value === number) {
                 return false;
             }
@@ -188,12 +221,12 @@ class Battlefield {
     }
 
     checkSquare(number, row, col) {
-        var colStart = Math.floor(col / this.squareSize) * this.squareSize;
-        var rowStart = Math.floor(row / this.squareSize) * this.squareSize;
-        var result = null
+        const colStart = Math.floor(col / this.squareSize) * this.squareSize;
+        const rowStart = Math.floor(row / this.squareSize) * this.squareSize;
+        let result = null
 
-        for (var r = rowStart; r < rowStart + this.squareSize; r++) {
-            for (var c = colStart; c < colStart + this.squareSize; c++) {
+        for (let r = rowStart; r < rowStart + this.squareSize; r++) {
+            for (let c = colStart; c < colStart + this.squareSize; c++) {
                 const cell = this.area[r][c];
                 if (!cell.isEmpty) continue;
                 if (this.isAvailable(number, r, c)) {
@@ -212,7 +245,7 @@ class Battlefield {
     }
 
     checkLine(number, row, col) {
-        var result = null
+        let result = null
 
         
         for (let c = 0; c < this.area.length; c++) {
@@ -259,8 +292,8 @@ class Battlefield {
         const colStart = Math.floor(col / this.squareSize) * this.squareSize;
         const rowStart = Math.floor(row / this.squareSize) * this.squareSize;
 
-        for (var r = rowStart; r < rowStart + this.squareSize; r++) {
-            for (var c = colStart; c < colStart + this.squareSize; c++) {
+        for (let r = rowStart; r < rowStart + this.squareSize; r++) {
+            for (let c = colStart; c < colStart + this.squareSize; c++) {
                 allVariants.push(this.area[r][c].value);
             }
         }
@@ -272,9 +305,9 @@ class Battlefield {
             .filter(s => !allVariants.includes(s))
     }
 
-    updateVariantas() {
-        for (var r = 0; r < this.area.length; r++) {
-            for (var c = 0; c < this.area[r].length; c++) {
+    updateVariants() {
+        for (let r = 0; r < this.area.length; r++) {
+            for (let c = 0; c < this.area[r].length; c++) {
                 const cell = this.area[r][c];
                 if (cell.isEmpty) {
                     cell.variants = this.getVariants(r, c);
@@ -288,10 +321,10 @@ class Battlefield {
 
     walk() {
         let found = false;
-        for (var r = 0; r < this.area.length; r = r + this.squareSize) {
-            for (var c = 0; c < this.area[r].length; c = c + this.squareSize) {
-                for (var n of this.shouldBe) {
-                    var result = this.checkSquare(n, r, c);
+        for (let r = 0; r < this.area.length; r = r + this.squareSize) {
+            for (let c = 0; c < this.area[r].length; c = c + this.squareSize) {
+                for (let n of this.shouldBe) {
+                    const result = this.checkSquare(n, r, c);
                     if (result) {
                         this.add(n, result.row, result.col);
                         found = true;
@@ -299,10 +332,10 @@ class Battlefield {
                 }
             }
         }
-        for (var r = 0; r < this.area.length; r = r + this.squareSize) {
-            for (var c = 0; c < this.area[r].length; c = c + this.squareSize) {
-                for (var n of this.shouldBe) {
-                    var result = this.checkLine(n, r, c);
+        for (let r = 0; r < this.area.length; r = r + this.squareSize) {
+            for (let c = 0; c < this.area[r].length; c = c + this.squareSize) {
+                for (let n of this.shouldBe) {
+                    const result = this.checkLine(n, r, c);
                     if (result) {
                         this.add(n, result.row, result.col);
                         found = true;
@@ -312,10 +345,10 @@ class Battlefield {
         }
 
 
-        this.updateVariantas();
+        this.updateVariants();
 
-        for (var r = 0; r < this.area.length; r++) {
-            for (var c = 0; c < this.area[r].length; c++) {
+        for (let r = 0; r < this.area.length; r++) {
+            for (let c = 0; c < this.area[r].length; c++) {
                 const cell = this.area[r][c];
                 if (!cell.isEmpty) continue;
 
@@ -326,7 +359,7 @@ class Battlefield {
             }
         }
 
-        this.updateVariantas();
+        this.updateVariants();
 
         return found;
     }
@@ -335,5 +368,142 @@ class Battlefield {
         let round = 0;
         while (this.walk()) {console.log(`Walk ${++round}`)}
         console.log("Finished");
+    }
+
+
+    randomWalk() {
+        let found = false;
+        this.updateVariants();
+
+        for (let r = 0; r < this.area.length; r++) {
+            for (let c = 0; c < this.area[r].length; c++) {
+                const cell = this.area[r][c];
+                if (!cell.isEmpty) continue;
+
+                if (cell.variants.length === 1) {
+                    this.add(cell.variants[0], r, c);
+                    found = true;
+                }
+            }
+        }
+
+        return found;
+
+    }
+
+    randomSolve() {
+        while (this.randomWalk()) {}
+        const data = this.getData()
+
+        console.log("Found all solved")
+        let i = 100;
+
+        do {
+            console.log(`Random... ${i}/100`);
+            this.updateVariants();
+            this.addRandom()
+            while (this.randomWalk()) {}
+
+            this.updateVariants();
+            const hasError = this.checkErrors();
+            if (hasError) {
+                this.load(data);
+
+                if (DEBUG) {
+                    hasError.input.classList.add('has-error')
+                }
+            }
+            if (this.getEmptyList().length === 0) {
+                break;
+            }
+            
+        } while (--i > 0);
+    }
+    
+
+    addRandom() {
+        const empty = this.getEmptyList()
+        if (empty.length) {
+            const cell = empty[Math.floor(Math.random() * empty.length)]
+            const variant = cell.variants[Math.floor(Math.random() * cell.variants.length)]
+            cell.value = variant;
+
+            if (DEBUG) {
+                cell.input.classList.add('random')
+            }
+        }
+    }
+
+    getEmptyList() {
+        const empty = [];
+        for (let r = 0; r < this.area.length; r++) {
+            for (let c = 0; c < this.area[r].length; c++) {
+                const cell = this.area[r][c];
+                if (!cell.isEmpty) continue;
+                empty.push(cell);
+            }
+        }
+        return empty;
+    }
+
+    checkErrors() {
+        for (let r = 0; r < this.area.length; r++) {
+            for (let c = 0; c < this.area[r].length; c++) {
+                const cell = this.area[r][c];
+                if (!cell.isEmpty) continue;
+                if (cell.variants.length) continue;
+                return cell;
+            }
+        }
+
+        return null;
+    }
+
+    checkErrors2() {
+        const errors = [];
+
+        for (let r = 0; r < this.area.length; r++) {
+            const rowValues = []
+            for (let c = 0; c < this.area.length; c++) {
+                const cell = this.area[r][c];
+                if (cell.value === 0) continue;
+                if (rowValues.includes(cell.value)) {
+                    return cell;
+                }
+                rowValues.push(cell.value)
+            }
+        }
+
+        for (let c = 0; c < this.area.length; c++) {
+            const colValues = []
+            for (let r = 0; r < this.area.length; r++) {
+                const cell = this.area[r][c];
+                if (cell.value === 0) continue;
+                if (colValues.includes(cell.value)) {
+                    return cell;
+                }
+                colValues.push(cell.value)
+            }
+        }
+
+        for (let r = 0; r < this.area.length; r = r + this.squareSize) {
+            for (let c = 0; c < this.area.length; c = c + this.squareSize) {
+                const squareValues = []
+
+                for (let squareR = r + 2; squareR >= r; squareR--) {
+                    for (let squareC = c + 2; squareC >= c; squareC--) {
+                        const cell = this.area[squareC][squareR];
+                        if (cell.value === 0) continue;
+                        if (squareValues.includes(cell.value)) {
+                            return cell;
+                        }
+                        squareValues.push(cell.value)
+                    }
+                }
+            }
+        }
+
+        return null;
+        
     }
 }

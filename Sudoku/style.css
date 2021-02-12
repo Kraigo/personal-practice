@@ -42,3 +42,11 @@ td input {
   text-align: center;
   border: none;
 }
+input.has-error {
+  background-color: red;
+  color: white;
+}
+input.random {
+  background-color: green;
+  color: white;
+}

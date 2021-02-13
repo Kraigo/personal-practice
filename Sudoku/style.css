@@ -50,3 +50,6 @@ input.random {
   background-color: green;
   color: white;
 }
+input.in-focus {
+  background-color: lightblue;
+}

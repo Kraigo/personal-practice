@@ -1,6 +1,6 @@
 'use strict';
 
-let DEBUG = true;
+let DEBUG = false;
 
 document.addEventListener("DOMContentLoaded", function() {
     const battlefield = new Battlefield();
@@ -127,6 +127,36 @@ class Battlefield {
                 this.area[r][c] = new Cell(input, r, c);
             }
         }
+
+        const onFocus = (val) => {
+            if (!val) return;
+            this.eachCell(cell => {
+                if (cell.value === val) {
+                    cell.input.classList.add('in-focus');
+                }
+            })
+        }
+        const onBlur = () => {
+            this.eachCell(cell => {
+                cell.input.className = ''
+            })
+        }
+
+        this.eachCell(cell => {
+            cell.input.addEventListener('focus', () => onFocus(cell.value));
+            cell.input.addEventListener('blur', () => onBlur());
+            cell.input.addEventListener('input', () => {onBlur();onFocus(cell.value)});
+        })
+    }
+
+    eachCell(cb) {
+        if (!(typeof cb === 'function')) return;
+
+        for (let r = 0; r < this.size; r++) {
+            for (let c = 0; c < this.size; c++) {
+               cb(this.area[r][c])
+            }
+        }
     }
 
     build(selector) {
@@ -159,19 +189,17 @@ class Battlefield {
         }
 
         if (DEBUG) {
-            for (let r = 0; r < this.area.length; r++) {
-                for (let c = 0; c < this.area[r].length; c++) {
-                    const cell = this.area[r][c];
-                    cell.input.className = ''
-                }
-            }
+            this.eachCell(cell => {
+                cell.input.className = ''
+            })
         }
     }
 
     getData() {
         const result = [];
-        for (let r = 0; r < this.area.length; r++) {
-            for (let c = 0; c < this.area[r].length; c++) {
+        
+        for (let r = 0; r < this.size; r++) {
+            for (let c = 0; c < this.size; c++) {
                 if (!this.area[r][c].value) continue;
                 result.push([Number(this.area[r][c].value), r, c]);
             }
@@ -185,8 +213,8 @@ class Battlefield {
     }
 
     clear() {
-        for (let r = 0; r < this.area.length; r++) {
-            for (let c = 0; c < this.area[r].length; c++) {
+        for (let r = 0; r < this.size; r++) {
+            for (let c = 0; c < this.size; c++) {
                 const input = this.area[r][c];
                 input.value = '';
             }
@@ -205,13 +233,13 @@ class Battlefield {
             }
         }
 
-        for (let c = 0; c < this.area.length; c++) {
+        for (let c = 0; c < this.size; c++) {
             if (this.area[row][c].value === number) {
                 return false;
             }
         }
 
-        for (let r = 0; r < this.area[row].length; r++) {
+        for (let r = 0; r < this.size; r++) {
             if (this.area[r][col].value === number) {
                 return false;
             }
@@ -392,16 +420,16 @@ class Battlefield {
     }
 
     randomSolve() {
-        while (this.randomWalk()) {}
+        while (this.walk()) {}
         const data = this.getData()
 
         console.log("Found all solved")
-        let i = 100;
+        let i = 1000;
 
         do {
-            console.log(`Random... ${i}/100`);
             this.updateVariants();
             this.addRandom()
+
             while (this.randomWalk()) {}
 
             this.updateVariants();
@@ -413,9 +441,16 @@ class Battlefield {
                     hasError.input.classList.add('has-error')
                 }
             }
+
             if (this.getEmptyList().length === 0) {
                 break;
             }
+
+            // const hasVariants = empty.some(a => a.variants.length);
+
+            // if (!hasVariants) {
+            //     this.load(data);
+            // }
             
         } while (--i > 0);
     }
@@ -423,6 +458,8 @@ class Battlefield {
 
     addRandom() {
         const empty = this.getEmptyList()
+            .filter(a => a.variants.length);
+
         if (empty.length) {
             const cell = empty[Math.floor(Math.random() * empty.length)]
             const variant = cell.variants[Math.floor(Math.random() * cell.variants.length)]
@@ -447,24 +484,11 @@ class Battlefield {
     }
 
     checkErrors() {
-        for (let r = 0; r < this.area.length; r++) {
-            for (let c = 0; c < this.area[r].length; c++) {
-                const cell = this.area[r][c];
-                if (!cell.isEmpty) continue;
-                if (cell.variants.length) continue;
-                return cell;
-            }
-        }
-
-        return null;
-    }
-
-    checkErrors2() {
         const errors = [];
 
-        for (let r = 0; r < this.area.length; r++) {
+        for (let r = 0; r < this.size; r++) {
             const rowValues = []
-            for (let c = 0; c < this.area.length; c++) {
+            for (let c = 0; c < this.size; c++) {
                 const cell = this.area[r][c];
                 if (cell.value === 0) continue;
                 if (rowValues.includes(cell.value)) {
@@ -474,9 +498,9 @@ class Battlefield {
             }
         }
 
-        for (let c = 0; c < this.area.length; c++) {
+        for (let c = 0; c < this.size; c++) {
             const colValues = []
-            for (let r = 0; r < this.area.length; r++) {
+            for (let r = 0; r < this.size; r++) {
                 const cell = this.area[r][c];
                 if (cell.value === 0) continue;
                 if (colValues.includes(cell.value)) {
@@ -486,8 +510,8 @@ class Battlefield {
             }
         }
 
-        for (let r = 0; r < this.area.length; r = r + this.squareSize) {
-            for (let c = 0; c < this.area.length; c = c + this.squareSize) {
+        for (let r = 0; r < this.size; r = r + this.squareSize) {
+            for (let c = 0; c < this.size; c = c + this.squareSize) {
                 const squareValues = []
 
                 for (let squareR = r + 2; squareR >= r; squareR--) {

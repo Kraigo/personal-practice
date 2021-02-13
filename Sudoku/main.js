@@ -442,15 +442,17 @@ class Battlefield {
                 }
             }
 
-            if (this.getEmptyList().length === 0) {
+            const empty = this.getEmptyList();
+
+            if (empty.length === 0) {
                 break;
             }
 
-            // const hasVariants = empty.some(a => a.variants.length);
+            const hasVariants = empty.some(a => a.variants.length);
 
-            // if (!hasVariants) {
-            //     this.load(data);
-            // }
+            if (!hasVariants) {
+                this.load(data);
+            }
             
         } while (--i > 0);
     }

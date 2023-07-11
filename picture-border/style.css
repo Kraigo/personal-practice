@@ -1,0 +1,15 @@
+#top{position:relative;background:url(top.jpg) left top repeat-x;width:40%;}
+#tl{background:url(left_ttop.jpg) left top no-repeat;width:32px;height:32px;position:absolute;top:0;left:0;}
+#tr{background:url(right_top.jpg) right top no-repeat;width:32px;height:32px;position:absolute;top:0;right:0;}
+#bl{background:url(bottom_left.jpg) left bottom no-repeat;width:32px;height:32px;position:absolute;bottom:0;left:0;}
+#br{background:url(bottom_right.jpg) right bottom no-repeat;width:32px;height:32px;position:absolute;bottom:0;right:0;}
+#left{background:url(left.jpg) left top repeat-y;}
+#right{background:url(right.jpg) right top repeat-y;}
+#bottom{background:url(bottom.jpg) bottom left repeat-x;}
+p{text-align:center;padding:35px}
+#fon{background-color:#CCCCCC;width:100%;height:400px;padding:20px}
+#v{background:url(bottom2.png) bottom left no-repeat;width:403px;}
+#n{background:url(top2.png) top left no-repeat;width:333px;padding-bottom:20px;padding-top:4px;}
+#f{background-color: #FFFFFF;}
+#border{background:url(fon3.gif) top left repeat-x #ababab;width:200px;height:198px;margin-top:2px;margin-left:2px;}
+#b{width:204px;height:202px;border: 2px solid gray;background-color:#FFFFFF;}
